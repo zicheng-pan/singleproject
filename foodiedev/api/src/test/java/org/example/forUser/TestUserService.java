@@ -15,6 +15,9 @@ public class TestUserService {
     @Autowired
     UserService userService;
 
+    /*
+        Integration test for Nas mysql connection
+     */
     @Test
     public void testqueryUsernameIsExist() {
         boolean imooc = userService.queryUsernameIsExist("imooc");

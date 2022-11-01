@@ -12,6 +12,34 @@
  File Encoding         : 65001
 
  Date: 01/09/2019 16:44:28
+
+docker run --name mysql -p 3306:3306 -e MYSQL_ROOT_PASSWORD=mysecret-pw -idt mysql:mysql:5.7.40 --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
+
+ docker run --name mysql -t \
+       -e MYSQL_DATABASE="zabbix" \
+       -e MYSQL_USER="zabbix" \
+       -e MYSQL_PASSWORD="password" \
+       -e MYSQL_ROOT_PASSWORD="password" \
+       -e TZ=Asia/Chongqing \
+       -v mysql-data:/var/lib/mysql \
+       -d mysql:5.7 \
+         --character-set-server=utf8 \
+         --collation-server=utf8_general_ci \
+         --sql-mode="NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION"
+
+  我们创建mysql数据库，选用指定字符集
+  docker run --name mysql -t \
+       -e MYSQL_ROOT_PASSWORD="mysecret-pw" \
+       -e TZ=Asia/Chongqing \
+       -p 3306:3306\
+       -d mysql:5.7 \
+         --character-set-server=utf8mb4 \
+         --collation-server=utf8mb4_unicode_ci
+
+show variables like '%char%';
+
+ 创建支持中文的数据库
+ create database `foodie-shop-dev` default character set utf8mb4 collate utf8mb4_unicode_ci;
 */
 
 SET NAMES utf8mb4;
