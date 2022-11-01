@@ -63,7 +63,3 @@ pagehelper:
   helperDialect: mysql
   supportMethodsArguments: true
 
-# 添加数据库用户名密码的加密解密秘钥
-datasource:
-  decrypt:
-
