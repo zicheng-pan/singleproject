@@ -1,9 +1,9 @@
 import pymysql
 
 con = pymysql.connect(
-	host='1.116.154.207',
+	host='zz.pan',
 	user='root',
-	passwd='my-secret-pw',
+	passwd='mysecret-pw',
 	port=7066,
 	db='foodie-shop-dev',
 	charset='utf8'
