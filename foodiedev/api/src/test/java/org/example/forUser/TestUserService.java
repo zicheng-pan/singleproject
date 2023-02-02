@@ -20,8 +20,8 @@ public class TestUserService {
      */
     @Test
     public void testqueryUsernameIsExist() {
-//        boolean imooc = userService.queryUsernameIsExist("imooc");
-//        System.out.println(imooc);
-//        assert true;
+        boolean imooc = userService.queryUsernameIsExist("xiaoming");
+        System.out.println(imooc);
+        assert true;
     }
 }

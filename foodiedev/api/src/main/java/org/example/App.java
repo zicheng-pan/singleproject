@@ -12,6 +12,7 @@ import tk.mybatis.spring.annotation.MapperScan;
 @SpringBootApplication
 // 扫描 mybatis 通用 mapper 所在的包
 @MapperScan(basePackages = "org.example.mapper")
+@ComponentScan(basePackages = {"org.example","org.n3r.idworker"})
 public class App {
     public static void main(String[] args) {
         SpringApplication.run(App.class, args);
