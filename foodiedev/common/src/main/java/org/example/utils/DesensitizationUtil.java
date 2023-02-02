@@ -1,6 +1,5 @@
 package org.example.utils;
 
-import sun.applet.Main;
 
 /**
  * 通用脱敏工具类
