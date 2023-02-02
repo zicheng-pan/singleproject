@@ -22,11 +22,17 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public boolean queryUsernameIsExist(String username) {
-        Users user = new Users();
-        user.setId("1908017YR51G1XWH");
-        user = (Users) usersMapper.select(user).get(0);
-        System.out.println(user.getId());
-        return user != null;
+
+        // 使用Example作为查询条件，查询数据库中的数据
+        Example userExample = new Example(Users.class);
+        Example.Criteria userCriteria = userExample.createCriteria();
+
+        userCriteria.andEqualTo("username", username);
+
+        Users result = usersMapper.selectOneByExample(userExample);
+
+        return result != null;
+
     }
 
     @Override
