@@ -77,7 +77,17 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    @Transactional(propagation = Propagation.SUPPORTS)
     public Users queryUserForLogin(String username, String password) {
-        return null;
+
+        // 使用Example作为查询条件，查询数据库中的数据
+        Example userExample = new Example(Users.class);
+        Example.Criteria userCriteria = userExample.createCriteria();
+
+        userCriteria.andEqualTo("username", username);
+        // 属性名称需要和Users类中得属性名对应而不是和数据库名称对齐，因为通过框架生成后，数据库得字段名有可能是驼峰命名
+        userCriteria.andEqualTo("password", password);
+
+        return usersMapper.selectOneByExample(userExample);
     }
 }

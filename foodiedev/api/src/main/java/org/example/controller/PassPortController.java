@@ -4,9 +4,11 @@ import cn.hutool.http.HttpStatus;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.apache.commons.lang3.StringUtils;
+import org.example.pojo.Users;
 import org.example.pojo.bo.UserBO;
 import org.example.service.UserService;
 import org.example.utils.JSONResult;
+import org.example.utils.MD5Utils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -68,6 +70,25 @@ public class PassPortController {
         userService.createUser(userBO);
 
         return JSONResult.ok();
+    }
+
+
+    @ApiOperation(value = "用户登录", notes = "用户登录", httpMethod = "POST")
+    @PostMapping("/login")
+    public JSONResult login(@RequestBody UserBO userBO) throws Exception {
+
+        String userName = userBO.getUsername();
+        String password = userBO.getPassword();
+
+        if (StringUtils.isBlank(userName) || StringUtils.isBlank(password))
+            return JSONResult.errorMsg("用户名或密码不能为空");
+
+        Users userResult = userService.queryUserForLogin(userName, MD5Utils.getMD5Str(password));
+        if (userResult == null) {
+            return JSONResult.errorMsg("用户名或密码错误");
+        }
+
+        return JSONResult.ok(userResult);
     }
 
 }
