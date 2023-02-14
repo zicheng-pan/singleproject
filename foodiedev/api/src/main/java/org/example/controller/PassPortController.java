@@ -11,6 +11,8 @@ import org.example.utils.CookieUtils;
 import org.example.utils.JSONResult;
 import org.example.utils.JsonUtils;
 import org.example.utils.MD5Utils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -21,6 +23,16 @@ import javax.servlet.http.HttpServletResponse;
 @RestController
 @RequestMapping("passport")
 public class PassPortController {
+
+    /*
+        在log4j.properties 配置文件中配置 INFO级别，默认debug就不可以打印在这个日志中
+        logger.debug();
+        logger.info();
+        logger.warn();
+        logger.error();
+        常用得looger日志级别
+     */
+    final static Logger logger = LoggerFactory.getLogger(PassPortController.class);
 
     @Autowired
     private UserService userService;
