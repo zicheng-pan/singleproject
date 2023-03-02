@@ -1,7 +1,9 @@
 package org.example.impl;
 
 import org.example.mapper.CategoryMapper;
+import org.example.mapper.CategoryMapperCustom;
 import org.example.pojo.Category;
+import org.example.pojo.vo.CategoryVO;
 import org.example.service.CategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -16,6 +18,9 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Autowired
     private CategoryMapper categoryMapper;
+
+    @Autowired
+    private CategoryMapperCustom categoryMapperCustom;
 
     /**
      * 都是查询所以使用SUPPORTS级别就可以了
@@ -33,5 +38,11 @@ public class CategoryServiceImpl implements CategoryService {
         criteria.andEqualTo("type", 1);
 
         return categoryMapper.selectByExample(example);
+    }
+
+    @Transactional(propagation = Propagation.SUPPORTS)
+    @Override
+    public List<CategoryVO> getSubCatList(Integer rootCatId) {
+        return categoryMapperCustom.getSubCatList(rootCatId);
     }
 }
