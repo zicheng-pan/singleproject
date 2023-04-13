@@ -2,6 +2,9 @@ package org.example.service;
 
 import org.example.pojo.Category;
 import org.example.pojo.vo.CategoryVO;
+import org.example.pojo.vo.NewItemsVO;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -20,4 +23,7 @@ public interface CategoryService {
      * @return
      */
     public List<CategoryVO> getSubCatList(Integer rootCatId);
+
+    @Transactional(propagation = Propagation.SUPPORTS)
+    List<NewItemsVO> getSixNewItemsLazy(Integer rootCatId);
 }
