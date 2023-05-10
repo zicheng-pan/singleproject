@@ -8,14 +8,12 @@ import org.example.pojo.Items;
 import org.example.pojo.ItemsImg;
 import org.example.pojo.ItemsParam;
 import org.example.pojo.ItemsSpec;
+import org.example.pojo.vo.CommentLevelCountsVO;
 import org.example.pojo.vo.ItemInfoVO;
 import org.example.service.ItemService;
 import org.example.utils.JSONResult;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -48,4 +46,18 @@ public class ItemController {
         return JSONResult.ok(infoVO);
     }
 
+    @ApiOperation(value = "查询商品评价等级", notes = "查询商品评价等级", httpMethod = "GET")
+    @GetMapping("/commentLevel")
+    public JSONResult commentLevel(
+            @ApiParam(name = "itemId", value = "商品id", required = true)
+            @RequestParam String itemId
+    ) {
+
+        if (StringUtils.isBlank(itemId)) {
+            return JSONResult.errorMsg(null);
+        }
+
+        CommentLevelCountsVO commentLevelCountsVO = itemService.queryCommentCounts(itemId);
+        return JSONResult.ok(commentLevelCountsVO);
+    }
 }
