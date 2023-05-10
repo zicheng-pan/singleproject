@@ -107,8 +107,12 @@ public class ItemServiceImpl implements ItemService {
         PagedGridResult result = new PagedGridResult();
         result.setPage(page);
         result.setRows(list);
-        result.setTotal((int) pageInfo.getTotal());
-        result.setRecords(pageInfo.getPages());
+        /**
+         * 这里定义反了
+         * 这里的list其实是Page对象，是mybatis分页的对象，Page继承的list，所以我们这里可以当作list来使用
+         */
+        result.setTotal((int) pageInfo.getPages());
+        result.setRecords(pageInfo.getTotal());
         return result;
     }
 
