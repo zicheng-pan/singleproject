@@ -12,6 +12,7 @@ import org.example.pojo.vo.CommentLevelCountsVO;
 import org.example.pojo.vo.ItemInfoVO;
 import org.example.service.ItemService;
 import org.example.utils.JSONResult;
+import org.example.utils.PagedGridResult;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -20,7 +21,7 @@ import java.util.List;
 @Api(value = "商品详情页", tags = {"用于查看商品详情"})
 @RestController
 @RequestMapping("items")
-public class ItemController {
+public class ItemController extends BaseController {
 
     @Autowired
     private ItemService itemService;
@@ -59,5 +60,33 @@ public class ItemController {
 
         CommentLevelCountsVO commentLevelCountsVO = itemService.queryCommentCounts(itemId);
         return JSONResult.ok(commentLevelCountsVO);
+    }
+
+
+    @ApiOperation(value = "查询商品评论", notes = "查询商品评论", httpMethod = "GET")
+    @GetMapping("/comments")
+    public JSONResult comments(
+            @ApiParam(name = "itemId", value = "商品id", required = true)
+            @RequestParam String itemId,
+            @ApiParam(name = "level", value = "评价等级", required = false)
+            @RequestParam(required = false)  Integer level,
+            @ApiParam(name = "page", value = "查询评价的第几页", required = false)
+            @RequestParam(required = false) Integer page,
+            @ApiParam(name = "pageSize", value = "分页的每一页显示的条数", required = false)
+            @RequestParam(required = false)  Integer pageSize
+    ) {
+        if (StringUtils.isBlank(itemId)) {
+            return JSONResult.errorMsg(null);
+        }
+
+        if (page == null) {
+            page = 1;
+        }
+        if (pageSize == null) {
+            pageSize = COMMENT_PAGE_SIZE;
+        }
+
+        PagedGridResult result = itemService.queryItemComments(itemId, level, page, pageSize);
+        return JSONResult.ok(result);
     }
 }

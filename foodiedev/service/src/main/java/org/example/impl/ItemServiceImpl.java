@@ -1,11 +1,14 @@
 package org.example.impl;
 
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import org.example.enums.CommentLevel;
 import org.example.mapper.*;
 import org.example.pojo.*;
 import org.example.pojo.vo.CommentLevelCountsVO;
 import org.example.pojo.vo.ItemCommentVO;
 import org.example.service.ItemService;
+import org.example.utils.PagedGridResult;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
@@ -71,13 +74,37 @@ public class ItemServiceImpl implements ItemService {
     }
 
     @Override
-    public List<ItemCommentVO> queryItemComments(String itemId, Integer level) {
+    public PagedGridResult queryItemComments(String itemId, Integer level, Integer page, Integer pageSize) {
         Map<String, Object> paramsMap = new HashMap<>();
         paramsMap.put("itemId", itemId);
         paramsMap.put("level", level);
+
+        /**
+         * 查询之前需要封装
+         * page：第几页
+         * pageSize：每页显示个数
+         */
+        PageHelper.startPage(page, pageSize);
+
         List<ItemCommentVO> itemCommentVOS = itemsMapperCustom.queryItemComments(paramsMap);
-        return itemCommentVOS;
+
+        /**
+         * 查询之后需要将数据封装到PagedGridResult.java中
+         */
+        PagedGridResult result = setterPagedGrid(itemCommentVOS, page);
+        return result;
     }
+
+    private PagedGridResult setterPagedGrid(List<?> list, Integer page) {
+        PageInfo<?> pageInfo = new PageInfo<>(list);
+        PagedGridResult result = new PagedGridResult();
+        result.setPage(page);
+        result.setRows(list);
+        result.setTotal((int) pageInfo.getTotal());
+        result.setRecords(pageInfo.getPages());
+        return result;
+    }
+
 
     @Override
     public CommentLevelCountsVO queryCommentCounts(String itemId) {

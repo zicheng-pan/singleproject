@@ -7,6 +7,7 @@ import org.example.pojo.ItemsParam;
 import org.example.pojo.ItemsSpec;
 import org.example.pojo.vo.CommentLevelCountsVO;
 import org.example.pojo.vo.ItemCommentVO;
+import org.example.utils.PagedGridResult;
 
 import java.util.List;
 import java.util.Map;
@@ -51,7 +52,7 @@ public interface ItemService {
      * @param itemId
      * @return
      */
-    public List<ItemCommentVO> queryItemComments(String itemId, Integer level);
+    public PagedGridResult queryItemComments(String itemId, Integer level, Integer page, Integer pageSize);
 
     /**
      * 根据商品id查询评价等级数量
