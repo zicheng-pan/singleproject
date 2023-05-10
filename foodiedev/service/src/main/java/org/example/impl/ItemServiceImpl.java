@@ -8,6 +8,7 @@ import org.example.pojo.*;
 import org.example.pojo.vo.CommentLevelCountsVO;
 import org.example.pojo.vo.ItemCommentVO;
 import org.example.service.ItemService;
+import org.example.utils.DesensitizationUtil;
 import org.example.utils.PagedGridResult;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -88,6 +89,12 @@ public class ItemServiceImpl implements ItemService {
 
         List<ItemCommentVO> itemCommentVOS = itemsMapperCustom.queryItemComments(paramsMap);
 
+        /**
+         * 添加对用户名匿名化
+         */
+        for (ItemCommentVO vo : itemCommentVOS) {
+            vo.setNickname(DesensitizationUtil.commonDisplay(vo.getNickname()));
+        }
         /**
          * 查询之后需要将数据封装到PagedGridResult.java中
          */
